@@ -1,4 +1,4 @@
-# 🧠 Dev Brain — AI-Powered Code Intelligence for Claude
+# 🧠 Dev Brain — AI-Powered Code Intelligence via MCP
 
 [![PyPI version](https://badge.fury.io/py/dev-brain.svg)](https://pypi.org/project/dev-brain/)
 [![Tests](https://github.com/mikeyfrilot/dev-brain/actions/workflows/test.yml/badge.svg)](https://github.com/mikeyfrilot/dev-brain/actions/workflows/test.yml)
@@ -7,7 +7,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io/)
 
-> **Transform Claude into a code analysis powerhouse.** Dev Brain is an MCP server that gives AI assistants the ability to analyze test coverage, generate pytest tests from AST, detect security vulnerabilities, and suggest refactoring improvements — all through natural conversation.
+> **Transform any AI assistant into a code analysis powerhouse.** Dev Brain is an MCP server that gives LLMs the ability to analyze test coverage, generate pytest tests from AST, detect security vulnerabilities, and suggest refactoring improvements — works with Claude, Cursor, Windsurf, and any MCP-compatible client.
 
 <p align="center">
   <a href="#-why-dev-brain">Why Dev Brain?</a> •
@@ -23,7 +23,7 @@
 
 **The Problem:** AI coding assistants can write code, but they can't *deeply analyze* your codebase. They don't know what's untested, what's vulnerable, or what needs refactoring.
 
-**The Solution:** Dev Brain gives Claude (and other MCP clients) **9 specialized analysis tools** that turn it into a senior developer who can:
+**The Solution:** Dev Brain gives any MCP-compatible AI assistant **9 specialized analysis tools** that turn it into a senior developer who can:
 
 | Capability | What It Does |
 |------------|--------------|
@@ -44,9 +44,9 @@
 pip install dev-brain
 ```
 
-### Add to Claude Desktop
+### Configure Your MCP Client
 
-Add this to your `claude_desktop_config.json`:
+**Claude Desktop** — Add to `claude_desktop_config.json`:
 
 ```json
 {
@@ -58,9 +58,11 @@ Add this to your `claude_desktop_config.json`:
 }
 ```
 
+**Cursor, Windsurf, or other MCP clients** — Check your client's documentation for MCP server configuration.
+
 ### Start Using It
 
-Just ask Claude naturally:
+Just ask your AI assistant naturally:
 
 - *"Analyze my authentication module for security vulnerabilities"*
 - *"Generate pytest tests for the UserService class"*
@@ -146,12 +148,12 @@ result = await client.call_tool("smart_tests_generate", {
 # Returns: Complete pytest file with fixtures, mocks, and edge case coverage
 ```
 
-### Natural Language (via Claude)
+### Natural Language Usage
 
 ```
 You: "Check my payment processing module for security issues"
 
-Claude: I'll run a security audit on your payment module...
+AI: I'll run a security audit on your payment module...
 
 Found 2 vulnerabilities:
 🔴 Critical: SQL injection in process_payment() at line 45
