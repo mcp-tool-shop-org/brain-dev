@@ -58,8 +58,12 @@ class MissingBehavior:
 
 
 @dataclass
-class TestSuggestion:
-    """A suggested test to write."""
+class SuggestedUnitCase:
+    """A suggested test case to write.
+
+    Note: Named SuggestedUnitCase to avoid pytest collection warnings
+    (pytest collects classes with "Test" prefix OR suffix).
+    """
 
     test_name: str
     test_file: str
@@ -77,6 +81,11 @@ class TestSuggestion:
             "framework": self.framework,
             "style": self.style,
         }
+
+
+# Backwards compatibility aliases
+TestSuggestion = SuggestedUnitCase
+GeneratedTest = SuggestedUnitCase
 
 
 @dataclass
@@ -295,8 +304,12 @@ class BehaviorAnalyzer:
         )
 
 
-class TestGenerator:
-    """Generates test suggestions."""
+class CodeTestGenerator:
+    """Generates test suggestions.
+
+    Note: Named CodeTestGenerator (not TestGenerator) to avoid pytest
+    collection warnings when the class name starts with "Test".
+    """
 
     TEMPLATES = {
         "pytest": {
@@ -366,7 +379,7 @@ describe('{test_name}', () => {{
             description=gap.description,
         )
 
-        return TestSuggestion(
+        return SuggestedUnitCase(
             test_name=gap.suggested_test_name,
             test_file=gap.suggested_test_file,
             test_code=test_code.strip(),
@@ -374,6 +387,10 @@ describe('{test_name}', () => {{
             framework=framework,
             style=style,
         )
+
+
+# Backwards compatibility alias (deprecated, use CodeTestGenerator)
+TestGenerator = CodeTestGenerator
 
 
 class RefactorAnalyzer:
@@ -826,6 +843,50 @@ class SecurityAnalyzer:
             "severity": "critical",
             "cwe": "CWE-502",
             "recommendation": "Avoid deserializing untrusted data, use yaml.safe_load()",
+        },
+        "xss": {
+            "patterns": [
+                r'\.innerHTML\s*=',  # Direct innerHTML assignment
+                r'document\.write\s*\(',  # document.write with dynamic content
+                r'\.html\s*\([^)]*\+',  # jQuery .html() with string concat
+                r'dangerouslySetInnerHTML',  # React unsafe HTML
+                r'render_template_string\s*\(',  # Flask unsafe template
+                r'Markup\s*\([^)]*\+',  # Flask Markup with concat
+            ],
+            "severity": "high",
+            "cwe": "CWE-79",
+            "recommendation": "Use proper escaping, avoid innerHTML, use textContent instead",
+        },
+        "ssrf": {
+            "patterns": [
+                r'requests\.(get|post|put|delete|patch)\s*\([^)]*\+',  # URL concat
+                r'urllib\.request\.urlopen\s*\([^)]*\+',
+                r'httpx\.(get|post|put|delete|patch)\s*\([^)]*\+',
+                r'aiohttp\.ClientSession\(\)\.get\s*\([^)]*\+',
+            ],
+            "severity": "high",
+            "cwe": "CWE-918",
+            "recommendation": "Validate and allowlist URLs, don't allow user-controlled URLs",
+        },
+        "xxe": {
+            "patterns": [
+                r'etree\.parse\s*\(',  # XML parsing without safe parser
+                r'xml\.dom\.minidom\.parse\s*\(',
+                r'xml\.sax\.parse\s*\(',
+                r'ElementTree\.parse\s*\(',
+            ],
+            "severity": "high",
+            "cwe": "CWE-611",
+            "recommendation": "Disable external entity processing, use defusedxml",
+        },
+        "log_injection": {
+            "patterns": [
+                r'logging\.(info|debug|warning|error|critical)\s*\([^)]*\+',
+                r'logger\.(info|debug|warning|error|critical)\s*\(f["\']',
+            ],
+            "severity": "medium",
+            "cwe": "CWE-117",
+            "recommendation": "Use structured logging, sanitize log inputs",
         },
     }
 

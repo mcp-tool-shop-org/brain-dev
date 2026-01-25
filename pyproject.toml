@@ -64,3 +64,8 @@ packages = ["dev_brain"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+filterwarnings = [
+    # These dataclasses/classes have __init__ but are not test classes
+    "ignore:cannot collect test class.*SuggestedUnitCase:pytest.PytestCollectionWarning",
+    "ignore:cannot collect test class.*SmartPytestFileGenerator:pytest.PytestCollectionWarning",
+]

@@ -466,9 +466,12 @@ class MockDetector:
         return "MagicMock"
 
 
-class TestGenerator:
+class SmartPytestFileGenerator:
     """
     Generates complete pytest test files.
+
+    Note: Named SmartPytestFileGenerator to avoid pytest collection warnings
+    (pytest collects classes with "Test" prefix OR suffix).
     """
 
     def __init__(self, module_info: ModuleInfo, mocks: dict[str, str]):
@@ -954,8 +957,13 @@ def generate_tests_for_file(file_path: str) -> str:
     mocks = mock_detector.detect_mocks()
 
     # Generate tests
-    generator = TestGenerator(module_info, mocks)
+    generator = SmartPytestFileGenerator(module_info, mocks)
     return generator.generate_test_file()
+
+
+# Backwards compatibility aliases
+SmartTestFileGenerator = SmartPytestFileGenerator
+TestGenerator = SmartPytestFileGenerator
 
 
 # CLI interface

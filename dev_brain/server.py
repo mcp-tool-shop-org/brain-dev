@@ -20,6 +20,7 @@ from mcp.types import (
     TextContent,
     Resource,
 )
+from mcp.server.lowlevel.server import ReadResourceContents
 
 from .config import DevBrainConfig
 from .analyzer import (
@@ -652,16 +653,22 @@ def create_server(config: Optional[DevBrainConfig] = None) -> Server:
         ]
 
     @server.read_resource()
-    async def read_resource(uri: str) -> str:
+    async def read_resource(uri: str) -> list[ReadResourceContents]:
         """Read a resource."""
         if uri == "brain://stats":
-            return json.dumps({
-                "server_name": config.server_name,
-                "server_version": config.server_version,
-                "analyzers": ["coverage", "behavior", "test_generator", "refactor", "ux"],
-            })
+            return [ReadResourceContents(
+                content=json.dumps({
+                    "server_name": config.server_name,
+                    "server_version": config.server_version,
+                    "analyzers": ["coverage", "behavior", "test_generator", "refactor", "ux"],
+                }),
+                mime_type="application/json",
+            )]
 
-        return json.dumps({"error": "Unknown resource"})
+        return [ReadResourceContents(
+            content=json.dumps({"error": "Unknown resource"}),
+            mime_type="application/json",
+        )]
 
     return server
 

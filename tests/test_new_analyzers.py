@@ -357,3 +357,72 @@ class TestSecurityAnalyzer:
         # Multiple patterns match, should find them
         hardcoded_count = sum(1 for i in issues if i.category == "hardcoded_secrets")
         assert hardcoded_count >= 1
+
+    def test_detect_xss_innerhtml(self, analyzer):
+        """Test XSS detection via innerHTML."""
+        symbols = [
+            {
+                "name": "render",
+                "file_path": "view.py",
+                "line": 10,
+                "source_code": 'element.innerHTML = user_input',
+            }
+        ]
+        issues = analyzer.analyze_security(symbols)
+        assert any(i.category == "xss" for i in issues)
+        assert any(i.cwe_id == "CWE-79" for i in issues)
+
+    def test_detect_xss_dangerously_set(self, analyzer):
+        """Test XSS detection via React dangerouslySetInnerHTML."""
+        symbols = [
+            {
+                "name": "component",
+                "file_path": "app.jsx",
+                "line": 5,
+                "source_code": 'return <div dangerouslySetInnerHTML={{__html: data}} />',
+            }
+        ]
+        issues = analyzer.analyze_security(symbols)
+        assert any(i.category == "xss" for i in issues)
+
+    def test_detect_ssrf(self, analyzer):
+        """Test SSRF detection via requests with user input."""
+        symbols = [
+            {
+                "name": "fetch",
+                "file_path": "api.py",
+                "line": 20,
+                "source_code": 'response = requests.get(base_url + user_path)',
+            }
+        ]
+        issues = analyzer.analyze_security(symbols)
+        assert any(i.category == "ssrf" for i in issues)
+        assert any(i.cwe_id == "CWE-918" for i in issues)
+
+    def test_detect_xxe(self, analyzer):
+        """Test XXE detection via unsafe XML parsing."""
+        symbols = [
+            {
+                "name": "parse_xml",
+                "file_path": "parser.py",
+                "line": 15,
+                "source_code": 'tree = etree.parse(xml_file)',
+            }
+        ]
+        issues = analyzer.analyze_security(symbols)
+        assert any(i.category == "xxe" for i in issues)
+        assert any(i.cwe_id == "CWE-611" for i in issues)
+
+    def test_detect_log_injection(self, analyzer):
+        """Test log injection detection."""
+        symbols = [
+            {
+                "name": "log_user",
+                "file_path": "logging.py",
+                "line": 8,
+                "source_code": 'logger.info(f"User logged in: {username}")',
+            }
+        ]
+        issues = analyzer.analyze_security(symbols)
+        assert any(i.category == "log_injection" for i in issues)
+        assert any(i.cwe_id == "CWE-117" for i in issues)
