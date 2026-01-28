@@ -3,9 +3,9 @@ Pytest configuration and fixtures for Dev Brain tests.
 """
 
 import pytest
-from dev_brain.config import DevBrainConfig
-from dev_brain.server import create_server
-from dev_brain.analyzer import (
+from brain_dev.config import DevBrainConfig
+from brain_dev.server import create_server
+from brain_dev.analyzer import (
     CoverageGap,
     MissingBehavior,
     TestSuggestion,

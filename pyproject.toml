@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "dev-brain"
+name = "brain-dev"
 version = "1.0.0"
 description = "MCP server for AI-powered code analysis — test generation, security audits, coverage analysis, and refactoring suggestions"
 readme = "README.md"
@@ -51,16 +51,16 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mcp-tool-shop/dev-brain"
-Repository = "https://github.com/mcp-tool-shop/dev-brain"
-Issues = "https://github.com/mcp-tool-shop/dev-brain/issues"
-Changelog = "https://github.com/mcp-tool-shop/dev-brain/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/mcp-tool-shop/brain-dev"
+Repository = "https://github.com/mcp-tool-shop/brain-dev"
+Issues = "https://github.com/mcp-tool-shop/brain-dev/issues"
+Changelog = "https://github.com/mcp-tool-shop/brain-dev/blob/main/CHANGELOG.md"
 
 [project.scripts]
-dev-brain = "dev_brain.server:main"
+brain-dev = "brain_dev.server:main"
 
 [tool.hatch.build.targets.wheel]
-packages = ["dev_brain"]
+packages = ["brain_dev"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

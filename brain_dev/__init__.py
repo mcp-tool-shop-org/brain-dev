@@ -10,11 +10,11 @@ Consumes Context Engine to provide:
 
 Usage:
     # As MCP server
-    dev-brain
+    brain-dev
 
     # Programmatic
-    from dev_brain import DevBrainConfig
-    from dev_brain.server import create_server
+    from brain_dev import DevBrainConfig
+    from brain_dev.server import create_server
 """
 
 from .config import DevBrainConfig

@@ -10,7 +10,7 @@ class DevBrainConfig:
     """Configuration for the Dev Brain server."""
 
     # Server identity
-    server_name: str = "dev-brain"
+    server_name: str = "brain-dev"
     server_version: str = "1.0.0"
 
     # Context Engine connection

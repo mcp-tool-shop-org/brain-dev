@@ -202,7 +202,7 @@ async def handle_coverage_analyze(args):
 ```python
 @dataclass
 class DevBrainConfig:
-    server_name: str = "dev-brain"
+    server_name: str = "brain-dev"
     server_version: str = "1.0.0"
 
     # Context Engine connection

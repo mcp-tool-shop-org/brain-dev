@@ -1,8 +1,8 @@
 # 🧠 Dev Brain — AI-Powered Code Intelligence via MCP
 
-[![PyPI version](https://badge.fury.io/py/dev-brain.svg)](https://pypi.org/project/dev-brain/)
-[![Tests](https://github.com/mcp-tool-shop/dev-brain/actions/workflows/test.yml/badge.svg)](https://github.com/mcp-tool-shop/dev-brain/actions/workflows/test.yml)
-[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](https://github.com/mcp-tool-shop/dev-brain)
+[![PyPI version](https://badge.fury.io/py/brain-dev.svg)](https://pypi.org/project/brain-dev/)
+[![Tests](https://github.com/mcp-tool-shop/brain-dev/actions/workflows/test.yml/badge.svg)](https://github.com/mcp-tool-shop/brain-dev/actions/workflows/test.yml)
+[![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)](https://github.com/mcp-tool-shop/brain-dev)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![MCP](https://img.shields.io/badge/MCP-Compatible-purple.svg)](https://modelcontextprotocol.io/)
@@ -10,7 +10,7 @@
 > **Transform any AI assistant into a code analysis powerhouse.** Dev Brain is an MCP server that gives LLMs the ability to analyze test coverage, generate pytest tests from AST, detect security vulnerabilities, and suggest refactoring improvements — works with Claude, Cursor, Windsurf, and any MCP-compatible client.
 
 <p align="center">
-  <a href="#-why-dev-brain">Why Dev Brain?</a> •
+  <a href="#-why-brain-dev">Why Dev Brain?</a> •
   <a href="#-quick-start">Quick Start</a> •
   <a href="#-tools">Tools</a> •
   <a href="#-security-scanning">Security</a> •
@@ -41,7 +41,7 @@
 ### Installation
 
 ```bash
-pip install dev-brain
+pip install brain-dev
 ```
 
 ### Configure Your MCP Client
@@ -51,8 +51,8 @@ pip install dev-brain
 ```json
 {
   "mcpServers": {
-    "dev-brain": {
-      "command": "dev-brain"
+    "brain-dev": {
+      "command": "brain-dev"
     }
   }
 }
@@ -192,8 +192,13 @@ Recommendations:
 
 ```bash
 # Clone the repository
+<<<<<<< HEAD
 git clone https://github.com/mcp-tool-shop/dev-brain.git
 cd dev-brain
+=======
+git clone https://github.com/mcp-tool-shop/brain-dev.git
+cd brain-dev
+>>>>>>> 550fd0d (Rename dev-brain to brain-dev)
 
 # Install in development mode
 pip install -e ".[dev]"
@@ -202,10 +207,10 @@ pip install -e ".[dev]"
 pytest tests/ -v
 
 # Run with coverage
-pytest tests/ --cov=dev_brain --cov-report=html
+pytest tests/ --cov=brain_dev --cov-report=html
 
 # Type checking
-mypy dev_brain
+mypy brain_dev
 ```
 
 ---

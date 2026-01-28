@@ -7,7 +7,7 @@ Tests the AST-based code analysis and test generation.
 import pytest
 from pathlib import Path
 
-from dev_brain.smart_test_generator import (
+from brain_dev.smart_test_generator import (
     Parameter,
     FunctionInfo,
     ClassInfo,

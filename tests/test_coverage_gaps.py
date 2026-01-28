@@ -11,8 +11,8 @@ These tests target specific uncovered lines:
 import pytest
 from unittest.mock import patch, MagicMock, AsyncMock
 
-from dev_brain.config import DevBrainConfig, load_config
-from dev_brain.analyzer import CoverageAnalyzer, RefactorAnalyzer
+from brain_dev.config import DevBrainConfig, load_config
+from brain_dev.analyzer import CoverageAnalyzer, RefactorAnalyzer
 
 
 # =============================================================================
@@ -183,7 +183,7 @@ class TestLoadConfig:
         """Test that load_config() returns default configuration values."""
         config = load_config()
 
-        assert config.server_name == "dev-brain"
+        assert config.server_name == "brain-dev"
         assert config.server_version == "1.0.0"
         assert config.min_gap_support == 0.05
         assert config.min_confidence == 0.5
@@ -200,7 +200,7 @@ class TestLoadConfig:
 
         # Should still return default config
         assert isinstance(config, DevBrainConfig)
-        assert config.server_name == "dev-brain"
+        assert config.server_name == "brain-dev"
 
 
 # =============================================================================
@@ -213,13 +213,13 @@ class TestServerEntryPoints:
     @pytest.mark.asyncio
     async def test_run_server_creates_and_runs_server(self):
         """Test that run_server() creates a server and attempts to run it."""
-        from dev_brain.server import run_server
+        from brain_dev.server import run_server
 
         # Mock the stdio_server context manager and server.run
         mock_read_stream = MagicMock()
         mock_write_stream = MagicMock()
 
-        with patch('dev_brain.server.stdio_server') as mock_stdio:
+        with patch('brain_dev.server.stdio_server') as mock_stdio:
             # Make stdio_server an async context manager
             mock_context = MagicMock()
             mock_context.__aenter__ = AsyncMock(
@@ -228,7 +228,7 @@ class TestServerEntryPoints:
             mock_context.__aexit__ = AsyncMock(return_value=None)
             mock_stdio.return_value = mock_context
 
-            with patch('dev_brain.server.create_server') as mock_create:
+            with patch('brain_dev.server.create_server') as mock_create:
                 mock_server = MagicMock()
                 mock_server.run = AsyncMock()
                 mock_server.create_initialization_options = MagicMock(return_value={})
@@ -243,9 +243,9 @@ class TestServerEntryPoints:
 
     def test_main_calls_asyncio_run(self):
         """Test that main() uses asyncio.run to execute run_server."""
-        from dev_brain.server import main
+        from brain_dev.server import main
 
-        with patch('dev_brain.server.asyncio.run') as mock_run:
+        with patch('brain_dev.server.asyncio.run') as mock_run:
             main()
 
             # asyncio.run should be called with the run_server coroutine
@@ -258,7 +258,7 @@ class TestServerEntryPoints:
         """Test that running the module as __main__ would call main()."""
         # This tests the if __name__ == "__main__": block indirectly
         # by verifying main() is callable
-        from dev_brain.server import main
+        from brain_dev.server import main
 
         assert callable(main)
 

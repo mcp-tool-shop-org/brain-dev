@@ -15,8 +15,8 @@ from mcp.types import (
     CallToolRequest,
 )
 
-from dev_brain.config import DevBrainConfig
-from dev_brain.server import create_server
+from brain_dev.config import DevBrainConfig
+from brain_dev.server import create_server
 
 
 # =============================================================================
@@ -157,7 +157,7 @@ def existing_test_patterns():
 
 
 @pytest.fixture
-def dev_brain_server():
+def brain_dev_server():
     """Create Dev Brain server for testing."""
     return create_server(DevBrainConfig(
         min_gap_support=0.05,
@@ -175,7 +175,7 @@ class TestCoverageAnalysisWorkflow:
 
     @pytest.mark.asyncio
     async def test_identify_coverage_gaps_from_patterns(
-        self, dev_brain_server, context_patterns_data, existing_test_patterns
+        self, brain_dev_server, context_patterns_data, existing_test_patterns
     ):
         """
         Test: Use context_patterns output to find test coverage gaps.
@@ -185,7 +185,7 @@ class TestCoverageAnalysisWorkflow:
         2. Developer provides which patterns are already tested
         3. Dev Brain identifies high-priority gaps
         """
-        result = await call_tool(dev_brain_server, "coverage_analyze", {
+        result = await call_tool(brain_dev_server, "coverage_analyze", {
             "patterns": context_patterns_data,
             "test_patterns": existing_test_patterns,
         })
@@ -214,7 +214,7 @@ class TestCoverageAnalysisWorkflow:
 
     @pytest.mark.asyncio
     async def test_generate_tests_for_gaps(
-        self, dev_brain_server, context_patterns_data, existing_test_patterns
+        self, brain_dev_server, context_patterns_data, existing_test_patterns
     ):
         """
         Test: Generate test suggestions for identified coverage gaps.
@@ -224,7 +224,7 @@ class TestCoverageAnalysisWorkflow:
         2. Generate test code for each gap
         """
         # Step 1: Find gaps
-        coverage_result = await call_tool(dev_brain_server, "coverage_analyze", {
+        coverage_result = await call_tool(brain_dev_server, "coverage_analyze", {
             "patterns": context_patterns_data,
             "test_patterns": existing_test_patterns,
         })
@@ -233,7 +233,7 @@ class TestCoverageAnalysisWorkflow:
         if coverage_result["gaps"]:
             gap = coverage_result["gaps"][0]
 
-            test_result = await call_tool(dev_brain_server, "tests_generate", {
+            test_result = await call_tool(brain_dev_server, "tests_generate", {
                 "gap": gap,
                 "framework": "pytest",
                 "style": "integration",
@@ -256,7 +256,7 @@ class TestBehaviorAnalysisWorkflow:
 
     @pytest.mark.asyncio
     async def test_find_unhandled_user_behaviors(
-        self, dev_brain_server, context_patterns_data, context_code_symbols
+        self, brain_dev_server, context_patterns_data, context_code_symbols
     ):
         """
         Test: Find user behaviors not handled in code.
@@ -266,7 +266,7 @@ class TestBehaviorAnalysisWorkflow:
         2. Context Engine provides code symbols
         3. Dev Brain finds behaviors without handlers
         """
-        result = await call_tool(dev_brain_server, "behavior_missing", {
+        result = await call_tool(brain_dev_server, "behavior_missing", {
             "patterns": context_patterns_data,
             "code_symbols": context_code_symbols,
             "min_count": 100,
@@ -292,7 +292,7 @@ class TestRefactoringWorkflow:
 
     @pytest.mark.asyncio
     async def test_suggest_refactoring_from_code_symbols(
-        self, dev_brain_server, context_code_symbols, context_patterns_data
+        self, brain_dev_server, context_code_symbols, context_patterns_data
     ):
         """
         Test: Suggest refactoring based on code structure and usage.
@@ -302,7 +302,7 @@ class TestRefactoringWorkflow:
         2. Context Engine provides usage patterns
         3. Dev Brain suggests refactoring opportunities
         """
-        result = await call_tool(dev_brain_server, "refactor_suggest", {
+        result = await call_tool(brain_dev_server, "refactor_suggest", {
             "symbols": context_code_symbols,
             "patterns": context_patterns_data,
             "analysis_type": "all",
@@ -328,7 +328,7 @@ class TestUXInsightsWorkflow:
 
     @pytest.mark.asyncio
     async def test_analyze_user_flow_dropoff(
-        self, dev_brain_server, context_patterns_data
+        self, brain_dev_server, context_patterns_data
     ):
         """
         Test: Analyze user flows for dropoff points.
@@ -337,7 +337,7 @@ class TestUXInsightsWorkflow:
         1. Context Engine provides behavior patterns
         2. Dev Brain analyzes for UX issues like dropoff
         """
-        result = await call_tool(dev_brain_server, "ux_insights", {
+        result = await call_tool(brain_dev_server, "ux_insights", {
             "patterns": context_patterns_data,
             "flow_type": "checkout",
             "metric": "dropoff",
@@ -356,7 +356,7 @@ class TestUXInsightsWorkflow:
 
     @pytest.mark.asyncio
     async def test_analyze_error_flows(
-        self, dev_brain_server, context_patterns_data
+        self, brain_dev_server, context_patterns_data
     ):
         """
         Test: Analyze patterns for error flows.
@@ -365,7 +365,7 @@ class TestUXInsightsWorkflow:
         1. Context Engine provides patterns including error events
         2. Dev Brain identifies problematic error flows
         """
-        result = await call_tool(dev_brain_server, "ux_insights", {
+        result = await call_tool(brain_dev_server, "ux_insights", {
             "patterns": context_patterns_data,
             "flow_type": "general",
             "metric": "error_rate",
@@ -392,7 +392,7 @@ class TestFullAnalysisPipeline:
     @pytest.mark.asyncio
     async def test_comprehensive_codebase_analysis(
         self,
-        dev_brain_server,
+        brain_dev_server,
         context_patterns_data,
         context_code_symbols,
         existing_test_patterns,
@@ -410,7 +410,7 @@ class TestFullAnalysisPipeline:
         All data originates from Context Engine.
         """
         # Step 1: Coverage Analysis
-        coverage = await call_tool(dev_brain_server, "coverage_analyze", {
+        coverage = await call_tool(brain_dev_server, "coverage_analyze", {
             "patterns": context_patterns_data,
             "test_patterns": existing_test_patterns,
             "min_support": 0.05,
@@ -419,7 +419,7 @@ class TestFullAnalysisPipeline:
         assert "gaps" in coverage
 
         # Step 2: Behavior Analysis
-        behaviors = await call_tool(dev_brain_server, "behavior_missing", {
+        behaviors = await call_tool(brain_dev_server, "behavior_missing", {
             "patterns": context_patterns_data,
             "code_symbols": context_code_symbols,
             "min_count": 100,
@@ -427,7 +427,7 @@ class TestFullAnalysisPipeline:
         assert "missing_behaviors" in behaviors
 
         # Step 3: Refactoring Analysis
-        refactoring = await call_tool(dev_brain_server, "refactor_suggest", {
+        refactoring = await call_tool(brain_dev_server, "refactor_suggest", {
             "symbols": context_code_symbols,
             "patterns": context_patterns_data,
             "analysis_type": "all",
@@ -435,14 +435,14 @@ class TestFullAnalysisPipeline:
         assert "suggestions" in refactoring
 
         # Step 4: UX Analysis
-        ux_dropoff = await call_tool(dev_brain_server, "ux_insights", {
+        ux_dropoff = await call_tool(brain_dev_server, "ux_insights", {
             "patterns": context_patterns_data,
             "flow_type": "checkout",
             "metric": "dropoff",
         })
         assert "insights" in ux_dropoff
 
-        ux_errors = await call_tool(dev_brain_server, "ux_insights", {
+        ux_errors = await call_tool(brain_dev_server, "ux_insights", {
             "patterns": context_patterns_data,
             "flow_type": "general",
             "metric": "error_rate",
@@ -451,7 +451,7 @@ class TestFullAnalysisPipeline:
 
         # Step 5: Generate tests for top gaps
         for gap in coverage["gaps"][:3]:
-            test = await call_tool(dev_brain_server, "tests_generate", {
+            test = await call_tool(brain_dev_server, "tests_generate", {
                 "gap": gap,
                 "framework": "pytest",
                 "style": "integration",
@@ -476,11 +476,11 @@ class TestServerHealthCheck:
     """Tests server health and stats."""
 
     @pytest.mark.asyncio
-    async def test_server_stats(self, dev_brain_server):
+    async def test_server_stats(self, brain_dev_server):
         """Test that server reports stats correctly."""
-        result = await call_tool(dev_brain_server, "brain_stats", {})
+        result = await call_tool(brain_dev_server, "brain_stats", {})
 
-        assert result["server_name"] == "dev-brain"
+        assert result["server_name"] == "brain-dev"
         assert result["tools_available"] == 9
         assert "min_gap_support" in result
         assert "min_confidence" in result

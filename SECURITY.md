@@ -54,7 +54,7 @@ We aim to respond to security reports within 48 hours and will work with you to 
 
 1. **Run in trusted environments**: Only use Dev Brain in development environments with trusted MCP clients
 2. **Review analyzed code**: The tool analyzes any Python file you point it to
-3. **Keep dependencies updated**: Run `pip install --upgrade dev-brain` regularly
+3. **Keep dependencies updated**: Run `pip install --upgrade brain-dev` regularly
 4. **Check permissions**: Ensure the MCP server runs with appropriate file system permissions
 
 ## Dependencies

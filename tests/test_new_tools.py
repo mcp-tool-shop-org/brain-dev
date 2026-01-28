@@ -10,7 +10,7 @@ from unittest.mock import MagicMock, patch
 
 from mcp.types import TextContent, CallToolRequest
 
-from dev_brain.server import create_server
+from brain_dev.server import create_server
 
 
 # Helper to call tools (same pattern as test_server.py)

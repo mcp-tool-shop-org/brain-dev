@@ -4,7 +4,7 @@ Tests for DocsAnalyzer and SecurityAnalyzer.
 
 import pytest
 import json
-from dev_brain.analyzer import DocsAnalyzer, SecurityAnalyzer, DocSuggestion, SecurityIssue
+from brain_dev.analyzer import DocsAnalyzer, SecurityAnalyzer, DocSuggestion, SecurityIssue
 
 
 class TestDocSuggestion:

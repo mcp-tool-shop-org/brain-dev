@@ -3,7 +3,7 @@ Tests for Dev Brain analyzers.
 """
 
 import pytest
-from dev_brain.analyzer import (
+from brain_dev.analyzer import (
     CoverageGap,
     MissingBehavior,
     TestSuggestion,

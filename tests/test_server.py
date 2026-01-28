@@ -16,8 +16,8 @@ from mcp.types import (
     ReadResourceRequest,
 )
 
-from dev_brain.config import DevBrainConfig
-from dev_brain.server import create_server
+from brain_dev.config import DevBrainConfig
+from brain_dev.server import create_server
 
 
 # =============================================================================
@@ -76,7 +76,7 @@ class TestServerCreation:
         """Test creating server with default config."""
         server = create_server()
         assert server is not None
-        assert server.name == "dev-brain"
+        assert server.name == "brain-dev"
 
     def test_create_server_custom_config(self, config):
         """Test creating server with custom config."""
