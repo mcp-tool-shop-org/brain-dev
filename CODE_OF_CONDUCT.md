@@ -59,8 +59,9 @@ representative at an online or offline event.
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
-reported to the community leaders responsible for enforcement at
-[INSERT CONTACT METHOD].
+reported to the maintainers via
+[GitHub's private vulnerability reporting](https://github.com/mcp-tool-shop-org/brain-dev/security/advisories/new)
+or by emailing **64996768+mcp-tool-shop@users.noreply.github.com**.
 
 All complaints will be reviewed and investigated promptly and fairly.
 

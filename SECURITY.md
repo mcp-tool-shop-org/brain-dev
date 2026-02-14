@@ -38,17 +38,17 @@ The `smart_tests_generate` tool accepts file paths and reads Python files for an
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability, please report it by:
+If you discover a security vulnerability, please report it responsibly:
 
-1. **DO NOT** open a public GitHub issue
-2. Email the maintainer directly or use GitHub's private vulnerability reporting
+1. **DO NOT** open a public GitHub issue.
+2. Use [GitHub's private vulnerability reporting](https://github.com/mcp-tool-shop-org/brain-dev/security/advisories/new) (preferred), or email **64996768+mcp-tool-shop@users.noreply.github.com**.
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce
    - Potential impact
    - Suggested fix (if any)
 
-We aim to respond to security reports within 48 hours and will work with you to understand and address the issue.
+We will acknowledge your report as soon as possible and aim to release a fix within 7 days for critical issues.
 
 ## Security Best Practices for Users
 
