@@ -558,7 +558,10 @@ def create_server(config: Optional[DevBrainConfig] = None) -> Server:
 
         try:
             # Generate tests using the smart test generator
-            test_code = generate_tests_for_file(str(resolved_path))
+            test_code = generate_tests_for_file(
+                str(resolved_path),
+                max_file_bytes=config.max_file_bytes,
+            )
 
             return [TextContent(
                 type="text",
@@ -568,6 +571,17 @@ def create_server(config: Optional[DevBrainConfig] = None) -> Server:
                     "file_name": file_name,
                     "test_code": test_code,
                     "lines": len(test_code.split("\n")),
+                })
+            )]
+        except ValueError as e:
+            # Handle file-size limits and other validation errors
+            return [TextContent(
+                type="text",
+                text=json.dumps({
+                    "error": str(e),
+                    "success": False,
+                    "file_path": str(resolved_path),
+                    "file_name": file_name,
                 })
             )]
         except SyntaxError as e:

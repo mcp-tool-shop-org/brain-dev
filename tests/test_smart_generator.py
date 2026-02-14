@@ -539,6 +539,23 @@ async def fetch_data(url: str) -> dict:
         assert "@pytest.mark.asyncio" in result
         assert "async def test_fetch_data" in result
 
+    def test_rejects_file_over_size_limit(self, tmp_path):
+        """Test that files exceeding max_file_bytes are rejected."""
+        large_file = tmp_path / "huge.py"
+        # Write a file just over 1 KB (using a very low limit for testing)
+        large_file.write_text("x = 1\n" * 200)  # ~1200 bytes
+
+        with pytest.raises(ValueError, match="File too large"):
+            generate_tests_for_file(str(large_file), max_file_bytes=500)
+
+    def test_accepts_file_under_size_limit(self, tmp_path):
+        """Test that files under max_file_bytes are accepted."""
+        small_file = tmp_path / "small.py"
+        small_file.write_text("x = 1\n")
+
+        result = generate_tests_for_file(str(small_file), max_file_bytes=500)
+        assert "Tests for" in result
+
 
 # ==========================================================================
 # Test Edge Cases

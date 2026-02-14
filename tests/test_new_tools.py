@@ -294,3 +294,27 @@ def hello(name: str) -> str:
             assert data["file_path"] == temp_path
         finally:
             os.unlink(temp_path)
+
+    @pytest.mark.asyncio
+    async def test_smart_tests_generate_file_too_large(self):
+        """Test smart_tests_generate rejects files exceeding max_file_bytes."""
+        from brain_dev.config import DevBrainConfig
+
+        # Create a server with a very low file size cap
+        small_config = DevBrainConfig(max_file_bytes=500)
+        server = create_server(small_config)
+
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+            f.write("x = 1\n" * 200)  # ~1200 bytes, over 500 cap
+            temp_path = f.name
+
+        try:
+            result = await call_tool(server, "smart_tests_generate", {
+                "file_path": temp_path,
+            })
+
+            data = json.loads(result[0].text)
+            assert data["success"] is False
+            assert "too large" in data["error"].lower() or "File too large" in data["error"]
+        finally:
+            os.unlink(temp_path)

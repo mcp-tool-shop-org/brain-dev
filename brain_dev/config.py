@@ -34,6 +34,9 @@ class DevBrainConfig:
     # UX analysis
     dropoff_threshold: float = 0.3  # 30% dropoff is significant
 
+    # File size limits (bytes) to prevent resource exhaustion
+    max_file_bytes: int = 2_000_000  # 2 MB default cap for source files
+
 
 def load_config(config_path: Optional[Path] = None) -> DevBrainConfig:
     """

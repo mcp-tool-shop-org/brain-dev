@@ -981,16 +981,30 @@ def {test_name}():
         return f"{ind}assert result is not None"
 
 
-def generate_tests_for_file(file_path: str) -> str:
+def generate_tests_for_file(
+    file_path: str,
+    max_file_bytes: int = 2_000_000,
+) -> str:
     """
     Main entry point: Generate tests for a Python file.
 
     Args:
         file_path: Path to Python source file
+        max_file_bytes: Maximum file size in bytes (default 2 MB)
 
     Returns:
         Complete test file content
+
+    Raises:
+        ValueError: If the file exceeds max_file_bytes
     """
+    path = Path(file_path)
+    file_size = path.stat().st_size
+    if file_size > max_file_bytes:
+        raise ValueError(
+            f"File too large ({file_size:,} bytes, limit {max_file_bytes:,} bytes)"
+        )
+
     with open(file_path, "r", encoding="utf-8") as f:
         source_code = f.read()
 
