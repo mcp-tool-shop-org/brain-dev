@@ -495,12 +495,22 @@ class TestRefactorAnalyzer:
         symbols = [
             {
                 "name": "complex_function",
-                "source_code": "if x: if y: if z: for i in x: for j in y: while True: pass",
+                "source_code": (
+                    "def f(x, y, z):\n"
+                    "    if x:\n"
+                    "        if y:\n"
+                    "            if z:\n"
+                    "                for i in x:\n"
+                    "                    for j in y:\n"
+                    "                        while True:\n"
+                    "                            pass\n"
+                ),
             }
         ]
         suggestions = refactor_analyzer.analyze_code(symbols, [], "complexity")
 
         assert isinstance(suggestions, list)
+        assert len(suggestions) >= 1
         for s in suggestions:
             assert s.suggestion_type == "reduce_complexity"
             assert s.confidence > 0
@@ -562,13 +572,73 @@ class TestRefactorAnalyzer:
                 "name": "complex_function",
                 "file_path": "handler.py",
                 "line": 50,
-                "source_code": "if x: if y: if z: for i in x: for j in y: while True: pass",
+                "source_code": (
+                    "def f(x, y, z):\n"
+                    "    if x:\n"
+                    "        if y:\n"
+                    "            if z:\n"
+                    "                for i in x:\n"
+                    "                    for j in y:\n"
+                    "                        while True:\n"
+                    "                            pass\n"
+                ),
             }
         ]
         suggestions = refactor_analyzer.analyze_code(symbols, [], "complexity")
 
         for s in suggestions:
             assert s.location is not None
+
+    def test_complexity_ignores_comments_and_strings(self, refactor_analyzer):
+        """Regression: 'if' inside comments/strings must not inflate complexity."""
+        symbols = [
+            {
+                "name": "misleading",
+                "source_code": (
+                    "def f():\n"
+                    "    # if x: if y: if z: for i in range(10): while True:\n"
+                    '    s = "if x: for y in z: while True: elif: except:"\n'
+                    "    return s\n"
+                ),
+            }
+        ]
+        suggestions = refactor_analyzer.analyze_code(symbols, [], "complexity")
+        # No real control flow → no suggestion expected
+        assert len(suggestions) == 0
+
+    def test_complexity_counts_nested_control_flow(self, refactor_analyzer):
+        """Test that nested real control flow is counted correctly."""
+        from brain_dev.analyzer import RefactorAnalyzer
+        code = (
+            "def nested():\n"
+            "    if a:\n"            # +1
+            "        for x in b:\n"  # +1
+            "            while c:\n"  # +1
+            "                try:\n"  # +1
+            "                    with f():\n"  # +1
+            "                        if d or e:\n"  # +1 (If) + 1 (BoolOp 2 values)
+            "                            pass\n"
+            "                except ValueError:\n"  # +1 (ExceptHandler)
+            "                    pass\n"
+        )
+        score = RefactorAnalyzer._ast_complexity(code)
+        assert score == 8  # If + For + While + Try + With + If + BoolOp(1) + ExceptHandler
+
+    def test_complexity_counts_comprehensions(self, refactor_analyzer):
+        """Test that comprehensions contribute to complexity."""
+        from brain_dev.analyzer import RefactorAnalyzer
+        code = (
+            "def f(data):\n"
+            "    a = [x for x in data]\n"       # +1 ListComp
+            "    b = {x: 1 for x in data}\n"    # +1 DictComp
+            "    c = {x for x in data}\n"        # +1 SetComp
+            "    d = sum(x for x in data)\n"     # +1 GeneratorExp
+            "    if a:\n"                         # +1 If
+            "        for i in b:\n"               # +1 For
+            "            pass\n"
+        )
+        score = RefactorAnalyzer._ast_complexity(code)
+        assert score == 6
 
 
 # =============================================================================

@@ -5,6 +5,7 @@ This module contains the core reasoning logic that operates on
 data retrieved from the Context Engine.
 """
 
+import ast
 from dataclasses import dataclass, field
 from typing import Any, Optional
 import hashlib
@@ -418,8 +419,45 @@ class RefactorAnalyzer:
 
         return suggestions
 
+    @staticmethod
+    def _ast_complexity(source: str) -> int:
+        """Compute AST-based complexity score for a code snippet.
+
+        Complexity formula (inspired by cyclomatic complexity):
+          +1 for each: If, For, While, Try, With, ExceptHandler,
+                       match/case (MatchCase — Python 3.10+)
+          +1 per additional operand in BoolOp (``a and b and c`` = +2)
+          +1 for each comprehension node (ListComp, SetComp, DictComp, GeneratorExp)
+
+        Returns 0 when the source cannot be parsed as valid Python.
+        """
+        try:
+            tree = ast.parse(source)
+        except SyntaxError:
+            return 0
+
+        score = 0
+        for node in ast.walk(tree):
+            if isinstance(node, (
+                ast.If, ast.For, ast.While, ast.Try,
+                ast.With, ast.ExceptHandler,
+            )):
+                score += 1
+            elif isinstance(node, ast.BoolOp):
+                # ``a and b`` has 2 values → +1; ``a and b and c`` → +2
+                score += len(node.values) - 1
+            elif isinstance(node, (
+                ast.ListComp, ast.SetComp, ast.DictComp, ast.GeneratorExp,
+            )):
+                score += 1
+            # Python 3.10+ match/case
+            elif hasattr(ast, "MatchCase") and isinstance(node, ast.MatchCase):
+                score += 1
+
+        return score
+
     def _analyze_complexity(self, symbols: list[dict]) -> list[RefactorSuggestion]:
-        """Find overly complex functions."""
+        """Find overly complex functions using AST-based complexity scoring."""
         suggestions = []
 
         for symbol in symbols:
@@ -427,16 +465,14 @@ class RefactorAnalyzer:
             if not code:
                 continue
 
-            # Simple heuristic: count branches
-            branches = code.count("if ") + code.count("for ") + code.count("while ")
-            branches += code.count("elif ") + code.count("except ")
+            branches = self._ast_complexity(code)
 
-            if branches > 5:  # Arbitrary threshold
+            if branches > 5:  # Threshold for suggesting refactoring
                 suggestions.append(RefactorSuggestion(
                     suggestion_id=f"complex_{symbol.get('name', 'unknown')}",
                     suggestion_type="reduce_complexity",
                     location=f"{symbol.get('file_path', '')}:{symbol.get('line', 0)}",
-                    reason=f"Function has {branches} control flow branches",
+                    reason=f"Function has {branches} control flow branches (AST-based)",
                     confidence=min(0.5 + (branches - 5) * 0.1, 0.95),
                 ))
 
