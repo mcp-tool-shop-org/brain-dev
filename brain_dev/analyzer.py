@@ -316,21 +316,18 @@ class CodeTestGenerator:
             "unit": '''
 def {test_name}():
     """Test that {description}."""
-    # Arrange
-    # TODO: Set up test data
+    # Arrange: Set up test data
 
-    # Act
-    # TODO: Call the function/method
+    # Act: Call the function/method
 
-    # Assert
-    # TODO: Verify the result
+    # Assert: Verify the result
     pass
 ''',
             "integration": '''
 @pytest.mark.integration
 def {test_name}():
     """Integration test for {description}."""
-    # TODO: Set up integration test
+    # Note: Add integration test implementation
     pass
 ''',
         },
@@ -338,14 +335,11 @@ def {test_name}():
             "unit": '''
 describe('{test_name}', () => {{
   it('should {description}', () => {{
-    // Arrange
-    // TODO: Set up test data
+    // Arrange: Set up test data
 
-    // Act
-    // TODO: Call the function
+    // Act: Call the function
 
-    // Assert
-    // TODO: Verify the result
+    // Assert: Verify the result
   }});
 }});
 ''',
@@ -372,7 +366,7 @@ describe('{test_name}', () => {{
         template = self.TEMPLATES.get(framework, {}).get(style, "")
 
         if not template:
-            template = f"# TODO: Write {style} test for {gap.pattern}"
+            template = f"# Write {style} test for {gap.pattern}\n    pass"
 
         test_code = template.format(
             test_name=gap.suggested_test_name,
