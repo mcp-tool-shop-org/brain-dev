@@ -422,8 +422,9 @@ class TestTestGeneratorClass:
         suggestion = test_generator.generate_test(gap, "go", "unit")
 
         assert suggestion.framework == "go"
-        # Go framework not in templates, should get fallback
-        assert "TODO" in suggestion.test_code or "Test" in suggestion.test_code
+        # Go framework not in templates — falls back to generic stub
+        assert "Write" in suggestion.test_code or "unit" in suggestion.test_code
+        assert suggestion.covers_pattern == ["create", "delete"]
 
     def test_generate_integration_test(self, test_generator):
         """Test generating integration test."""
