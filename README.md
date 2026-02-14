@@ -214,6 +214,17 @@ input fields, and output JSON keys will not be removed or renamed.
 (currently 3.11 – 3.14).  When a new CPython version ships, the oldest is
 dropped in the next minor release.
 
+### Deprecation schedule
+
+| Field | Deprecated in | Removed in | Replacement |
+|-------|--------------|------------|-------------|
+| `confidence` (output JSON + property) | 1.0.2 | 1.2.0 | `signal_strength` |
+| `min_confidence` (config) | 1.0.2 | 1.2.0 | `min_signal_strength` |
+
+During the deprecation window, both the old and new keys are emitted in
+`to_dict()` output and both property names work on the dataclass.  Migrate
+to the new names at your convenience — the old names will stop working in 1.2.0.
+
 ---
 
 ## 🔧 Development

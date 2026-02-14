@@ -13,9 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **`confidence` field renamed to `signal_strength`** on RefactorSuggestion,
   UXInsight, DocSuggestion, and SecurityIssue.  The old `confidence` key is
   still emitted in `to_dict()` output and accessible via a `@property` alias
-  for backward compatibility.
+  for backward compatibility.  **Deprecated in 1.0.2, will be removed in 1.2.0.**
 - `DevBrainConfig.min_confidence` renamed to `min_signal_strength`
-  (property alias preserved).
+  (property alias preserved).  **Deprecated in 1.0.2, will be removed in 1.2.0.**
 - Complexity scoring now uses real AST-based analysis instead of
   string counting.
 - SecurityAnalyzer runs AST-first injection detection before regex

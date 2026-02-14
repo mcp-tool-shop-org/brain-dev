@@ -113,7 +113,7 @@ class RefactorSuggestion:
     code_before: str = ""
     code_after: str = ""
 
-    # Deprecated alias — will be removed in a future major version
+    # Deprecated in 1.0.2, will be removed in 1.2.0 — use signal_strength
     @property
     def confidence(self) -> float:
         return self.signal_strength
@@ -125,7 +125,7 @@ class RefactorSuggestion:
             "location": self.location,
             "reason": self.reason,
             "signal_strength": self.signal_strength,
-            "confidence": self.signal_strength,  # deprecated alias
+            "confidence": self.signal_strength,  # deprecated 1.0.2, removed 1.2.0
             "code_before": self.code_before,
             "code_after": self.code_after,
         }
@@ -142,7 +142,7 @@ class UXInsight:
     suggestion: str
     metric: str  # dropoff, time_to_complete, error_rate
 
-    # Deprecated alias — will be removed in a future major version
+    # Deprecated in 1.0.2, will be removed in 1.2.0 — use signal_strength
     @property
     def confidence(self) -> float:
         return self.signal_strength
@@ -153,7 +153,7 @@ class UXInsight:
             "finding": self.finding,
             "supporting_patterns": self.supporting_patterns,
             "signal_strength": self.signal_strength,
-            "confidence": self.signal_strength,  # deprecated alias
+            "confidence": self.signal_strength,  # deprecated 1.0.2, removed 1.2.0
             "suggestion": self.suggestion,
             "metric": self.metric,
         }
@@ -668,7 +668,7 @@ class DocSuggestion:
     suggested_doc: str
     signal_strength: float  # ranking heuristic 0–1, NOT a calibrated probability
 
-    # Deprecated alias — will be removed in a future major version
+    # Deprecated in 1.0.2, will be removed in 1.2.0 — use signal_strength
     @property
     def confidence(self) -> float:
         return self.signal_strength
@@ -682,7 +682,7 @@ class DocSuggestion:
             "doc_type": self.doc_type,
             "suggested_doc": self.suggested_doc,
             "signal_strength": self.signal_strength,
-            "confidence": self.signal_strength,  # deprecated alias
+            "confidence": self.signal_strength,  # deprecated 1.0.2, removed 1.2.0
         }
 
 
@@ -699,7 +699,7 @@ class SecurityIssue:
     signal_strength: float  # ranking heuristic 0–1, NOT a calibrated probability
     cwe_id: Optional[str] = None  # Common Weakness Enumeration ID
 
-    # Deprecated alias — will be removed in a future major version
+    # Deprecated in 1.0.2, will be removed in 1.2.0 — use signal_strength
     @property
     def confidence(self) -> float:
         return self.signal_strength
@@ -713,7 +713,7 @@ class SecurityIssue:
             "description": self.description,
             "recommendation": self.recommendation,
             "signal_strength": self.signal_strength,
-            "confidence": self.signal_strength,  # deprecated alias
+            "confidence": self.signal_strength,  # deprecated 1.0.2, removed 1.2.0
             "cwe_id": self.cwe_id,
         }
 

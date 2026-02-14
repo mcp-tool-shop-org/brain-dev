@@ -24,7 +24,7 @@ class DevBrainConfig:
 
     @property
     def min_confidence(self) -> float:
-        """Deprecated alias for min_signal_strength."""
+        """Deprecated in 1.0.2, will be removed in 1.2.0. Use min_signal_strength."""
         return self.min_signal_strength
     max_suggestions: int = 20     # Maximum suggestions per request
 
