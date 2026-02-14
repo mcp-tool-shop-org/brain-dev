@@ -291,9 +291,10 @@ class CodeAnalyzer(ast.NodeVisitor):
             return None
 
         # Dispatch to type-specific handlers
-        handler = self._ANNOTATION_HANDLERS.get(type(node).__name__)
-        if handler:
-            return handler(self, node)
+        handler_name = self._ANNOTATION_HANDLERS.get(type(node).__name__)
+        if handler_name:
+            method = getattr(self, handler_name)
+            return method(node)
 
         return ast.unparse(node) if hasattr(ast, 'unparse') else "Any"
 
@@ -322,14 +323,16 @@ class CodeAnalyzer(ast.NodeVisitor):
             return f"{left} | {right}"
         return None
 
-    # Dispatch table for annotation handling (reduces cyclomatic complexity)
-    _ANNOTATION_HANDLERS: dict[str, callable] = {
-        "Name": _handle_name_annotation,
-        "Constant": _handle_constant_annotation,
-        "Subscript": _handle_subscript_annotation,
-        "Attribute": _handle_attribute_annotation,
-        "Tuple": _handle_tuple_annotation,
-        "BinOp": _handle_binop_annotation,
+    # Dispatch table for annotation handling (reduces cyclomatic complexity).
+    # Maps AST node type names to handler method names (strings) so that
+    # getattr(self, name) can bind them correctly at call time.
+    _ANNOTATION_HANDLERS: dict[str, str] = {
+        "Name": "_handle_name_annotation",
+        "Constant": "_handle_constant_annotation",
+        "Subscript": "_handle_subscript_annotation",
+        "Attribute": "_handle_attribute_annotation",
+        "Tuple": "_handle_tuple_annotation",
+        "BinOp": "_handle_binop_annotation",
     }
 
     def _get_decorator_name(self, node: ast.expr) -> str:

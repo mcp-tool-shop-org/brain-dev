@@ -276,6 +276,44 @@ def func(*args, **kwargs):
         assert any("*args" in p.name for p in params)
         assert any("**kwargs" in p.name for p in params)
 
+    def test_annotation_handler_dispatch_optional(self):
+        """Regression: _ANNOTATION_HANDLERS dispatch must not raise TypeError.
+
+        Previously the dispatch table stored unbound methods, causing
+        'TypeError: missing 1 required positional argument' at runtime.
+        """
+        source = '''
+from typing import Optional
+
+def maybe_int(value: str) -> Optional[int]:
+    """Return int or None."""
+    try:
+        return int(value)
+    except ValueError:
+        return None
+'''
+        analyzer = CodeAnalyzer(source, "test.py")
+        result = analyzer.analyze()
+
+        func = result.functions[0]
+        assert func.return_annotation == "Optional[int]"
+        assert func.params[0].annotation == "str"
+
+    def test_annotation_handler_dispatch_generic_subscripts(self):
+        """Regression: complex subscript annotations like list[str],
+        dict[str, int] must be parsed without TypeError."""
+        source = '''
+def process(items: list[str], mapping: dict[str, int]) -> list[int]:
+    pass
+'''
+        analyzer = CodeAnalyzer(source, "test.py")
+        result = analyzer.analyze()
+
+        func = result.functions[0]
+        assert func.return_annotation == "list[int]"
+        assert func.params[0].annotation == "list[str]"
+        assert func.params[1].annotation == "dict[str, int]"
+
 
 # ==========================================================================
 # Test MockDetector
