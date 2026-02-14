@@ -110,7 +110,8 @@ class TestLongNameRefactoring:
         suggestion = long_name_suggestions[0]
         assert suggestion.suggestion_type == "rename"
         assert "60 chars" in suggestion.reason
-        assert suggestion.confidence == 0.6
+        assert suggestion.signal_strength == 0.6
+        assert suggestion.confidence == 0.6  # deprecated alias
 
     def test_refactor_no_rename_for_50_char_name(self):
         """Test that exactly 50 characters does NOT trigger long name warning."""
@@ -186,7 +187,8 @@ class TestLoadConfig:
         assert config.server_name == "brain-dev"
         assert config.server_version == "1.0.0"
         assert config.min_gap_support == 0.05
-        assert config.min_confidence == 0.5
+        assert config.min_signal_strength == 0.5
+        assert config.min_confidence == 0.5  # deprecated property alias
         assert config.max_suggestions == 20
         assert config.default_test_framework == "pytest"
         assert config.test_style == "unit"

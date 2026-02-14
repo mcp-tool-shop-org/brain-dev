@@ -20,7 +20,12 @@ class DevBrainConfig:
 
     # Analysis thresholds
     min_gap_support: float = 0.05  # Minimum support to consider a pattern
-    min_confidence: float = 0.5   # Minimum confidence for suggestions
+    min_signal_strength: float = 0.5  # Minimum signal strength for suggestions (heuristic, not calibrated)
+
+    @property
+    def min_confidence(self) -> float:
+        """Deprecated alias for min_signal_strength."""
+        return self.min_signal_strength
     max_suggestions: int = 20     # Maximum suggestions per request
 
     # Test generation

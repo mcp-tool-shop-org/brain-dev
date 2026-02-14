@@ -556,7 +556,8 @@ class TestBrainStatsTool:
         data = json.loads(result[0].text)
 
         assert "min_gap_support" in data
-        assert "min_confidence" in data
+        assert "min_signal_strength" in data
+        assert "min_confidence" in data  # deprecated alias still emitted
         assert "max_suggestions" in data
         assert "default_test_framework" in data
 

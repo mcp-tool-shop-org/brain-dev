@@ -24,7 +24,7 @@ def config():
     """Create test configuration."""
     return DevBrainConfig(
         min_gap_support=0.05,
-        min_confidence=0.5,
+        min_signal_strength=0.5,
         max_suggestions=10,
     )
 

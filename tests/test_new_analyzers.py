@@ -19,10 +19,12 @@ class TestDocSuggestion:
             location="test.py:10",
             doc_type="missing",
             suggested_doc="Add a docstring here",
-            confidence=0.9,
+            signal_strength=0.9,
         )
         assert suggestion.symbol_name == "my_function"
         assert suggestion.doc_type == "missing"
+        assert suggestion.signal_strength == 0.9
+        assert suggestion.confidence == 0.9  # deprecated alias
 
     def test_doc_suggestion_to_dict(self):
         """Test DocSuggestion.to_dict()."""
@@ -33,14 +35,15 @@ class TestDocSuggestion:
             location="test.py:10",
             doc_type="incomplete",
             suggested_doc="Missing: Returns section",
-            confidence=0.7,
+            signal_strength=0.7,
         )
         d = suggestion.to_dict()
         assert d["suggestion_id"] == "doc_abc123"
         assert d["symbol_name"] == "my_function"
         assert d["symbol_type"] == "function"
         assert d["doc_type"] == "incomplete"
-        assert d["confidence"] == 0.7
+        assert d["signal_strength"] == 0.7
+        assert d["confidence"] == 0.7  # deprecated alias
 
 
 class TestSecurityIssue:
@@ -55,11 +58,13 @@ class TestSecurityIssue:
             location="db.py:10",
             description="SQL injection detected",
             recommendation="Use parameterized queries",
-            confidence=0.8,
+            signal_strength=0.8,
             cwe_id="CWE-89",
         )
         assert issue.severity == "critical"
         assert issue.cwe_id == "CWE-89"
+        assert issue.signal_strength == 0.8
+        assert issue.confidence == 0.8  # deprecated alias
 
     def test_security_issue_to_dict(self):
         """Test SecurityIssue.to_dict()."""
@@ -70,7 +75,7 @@ class TestSecurityIssue:
             location="config.py:5",
             description="Hardcoded password",
             recommendation="Use env vars",
-            confidence=0.7,
+            signal_strength=0.7,
             cwe_id="CWE-798",
         )
         d = issue.to_dict()
@@ -78,6 +83,8 @@ class TestSecurityIssue:
         assert d["severity"] == "high"
         assert d["category"] == "hardcoded_secrets"
         assert d["cwe_id"] == "CWE-798"
+        assert d["signal_strength"] == 0.7
+        assert d["confidence"] == 0.7  # deprecated alias
 
     def test_security_issue_without_cwe(self):
         """Test SecurityIssue without CWE ID."""
@@ -88,7 +95,7 @@ class TestSecurityIssue:
             location="test.py:1",
             description="Some issue",
             recommendation="Fix it",
-            confidence=0.5,
+            signal_strength=0.5,
         )
         assert issue.cwe_id is None
         d = issue.to_dict()

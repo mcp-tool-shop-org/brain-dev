@@ -3,6 +3,14 @@ Analysis logic for Dev Brain.
 
 This module contains the core reasoning logic that operates on
 data retrieved from the Context Engine.
+
+Signal Strength (``signal_strength``)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Several dataclasses expose a ``signal_strength`` field (0.0–1.0).
+This is a **ranking heuristic**, NOT a calibrated probability.  Use it
+to sort findings by relative importance — do not interpret 0.7 as
+"70 % likely".  The old ``confidence`` key is still emitted in
+``to_dict()`` for backward compatibility but is deprecated.
 """
 
 import ast
@@ -101,9 +109,14 @@ class RefactorSuggestion:
     suggestion_type: str  # extract_function, rename, simplify, etc.
     location: str  # file:line
     reason: str
-    confidence: float
+    signal_strength: float  # ranking heuristic 0–1, NOT a calibrated probability
     code_before: str = ""
     code_after: str = ""
+
+    # Deprecated alias — will be removed in a future major version
+    @property
+    def confidence(self) -> float:
+        return self.signal_strength
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -111,7 +124,8 @@ class RefactorSuggestion:
             "type": self.suggestion_type,
             "location": self.location,
             "reason": self.reason,
-            "confidence": self.confidence,
+            "signal_strength": self.signal_strength,
+            "confidence": self.signal_strength,  # deprecated alias
             "code_before": self.code_before,
             "code_after": self.code_after,
         }
@@ -124,16 +138,22 @@ class UXInsight:
     insight_id: str
     finding: str
     supporting_patterns: int
-    confidence: float
+    signal_strength: float  # ranking heuristic 0–1, NOT a calibrated probability
     suggestion: str
     metric: str  # dropoff, time_to_complete, error_rate
+
+    # Deprecated alias — will be removed in a future major version
+    @property
+    def confidence(self) -> float:
+        return self.signal_strength
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "insight_id": self.insight_id,
             "finding": self.finding,
             "supporting_patterns": self.supporting_patterns,
-            "confidence": self.confidence,
+            "signal_strength": self.signal_strength,
+            "confidence": self.signal_strength,  # deprecated alias
             "suggestion": self.suggestion,
             "metric": self.metric,
         }
@@ -477,7 +497,7 @@ class RefactorAnalyzer:
                     suggestion_type="reduce_complexity",
                     location=f"{symbol.get('file_path', '')}:{symbol.get('line', 0)}",
                     reason=f"Function has {branches} control flow branches (AST-based)",
-                    confidence=min(0.5 + (branches - 5) * 0.1, 0.95),
+                    signal_strength=min(0.5 + (branches - 5) * 0.1, 0.95),
                 ))
 
         return suggestions
@@ -504,7 +524,7 @@ class RefactorAnalyzer:
                     suggestion_type="extract_common",
                     location=group[0].get("file_path", ""),
                     reason=f"Found {len(group)} similar functions with base name '{base_name}'",
-                    confidence=0.6,
+                    signal_strength=0.6,
                 ))
 
         return suggestions
@@ -523,7 +543,7 @@ class RefactorAnalyzer:
                     suggestion_type="rename",
                     location=f"{symbol.get('file_path', '')}:{symbol.get('line', 0)}",
                     reason=f"Single-letter name '{name}' lacks clarity",
-                    confidence=0.7,
+                    signal_strength=0.7,
                 ))
 
             # Check for very long names
@@ -533,7 +553,7 @@ class RefactorAnalyzer:
                     suggestion_type="rename",
                     location=f"{symbol.get('file_path', '')}:{symbol.get('line', 0)}",
                     reason=f"Name '{name[:30]}...' is too long ({len(name)} chars)",
-                    confidence=0.6,
+                    signal_strength=0.6,
                 ))
 
         return suggestions
@@ -603,7 +623,7 @@ class UXAnalyzer:
                             insight_id=f"dropoff_{insight_id}",
                             finding=f"{int((1-continuation_rate)*100)}% of users drop off after step {i}",
                             supporting_patterns=1,
-                            confidence=min(0.9, continuation_rate + 0.3),
+                            signal_strength=min(0.9, continuation_rate + 0.3),
                             suggestion=f"Investigate friction at step {i}: {prefix[-1] if prefix else 'start'}",
                             metric="dropoff",
                         ))
@@ -628,7 +648,7 @@ class UXAnalyzer:
                     insight_id=f"error_{insight_id}",
                     finding=f"Error flow observed {count} times: {' → '.join(seq)}",
                     supporting_patterns=1,
-                    confidence=0.8,
+                    signal_strength=0.8,
                     suggestion=f"Add error handling or user guidance for: {error_events[0]}",
                     metric="error_rate",
                 ))
@@ -646,7 +666,12 @@ class DocSuggestion:
     location: str
     doc_type: str  # missing, incomplete, outdated
     suggested_doc: str
-    confidence: float
+    signal_strength: float  # ranking heuristic 0–1, NOT a calibrated probability
+
+    # Deprecated alias — will be removed in a future major version
+    @property
+    def confidence(self) -> float:
+        return self.signal_strength
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -656,7 +681,8 @@ class DocSuggestion:
             "location": self.location,
             "doc_type": self.doc_type,
             "suggested_doc": self.suggested_doc,
-            "confidence": self.confidence,
+            "signal_strength": self.signal_strength,
+            "confidence": self.signal_strength,  # deprecated alias
         }
 
 
@@ -670,8 +696,13 @@ class SecurityIssue:
     location: str
     description: str
     recommendation: str
-    confidence: float
+    signal_strength: float  # ranking heuristic 0–1, NOT a calibrated probability
     cwe_id: Optional[str] = None  # Common Weakness Enumeration ID
+
+    # Deprecated alias — will be removed in a future major version
+    @property
+    def confidence(self) -> float:
+        return self.signal_strength
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -681,7 +712,8 @@ class SecurityIssue:
             "location": self.location,
             "description": self.description,
             "recommendation": self.recommendation,
-            "confidence": self.confidence,
+            "signal_strength": self.signal_strength,
+            "confidence": self.signal_strength,  # deprecated alias
             "cwe_id": self.cwe_id,
         }
 
@@ -747,7 +779,7 @@ class DocsAnalyzer:
                 location=location,
                 doc_type="missing",
                 suggested_doc=self._generate_doc_template(name, symbol_type, doc_style),
-                confidence=0.9,
+                signal_strength=0.9,
             )
 
         # Check for incomplete docstring
@@ -760,7 +792,7 @@ class DocsAnalyzer:
                 location=location,
                 doc_type="incomplete",
                 suggested_doc=f"Missing: {', '.join(issues)}",
-                confidence=0.7,
+                signal_strength=0.7,
             )
 
         return None
@@ -1062,7 +1094,7 @@ class SecurityAnalyzer:
                             f"{target}() called with {reason}"
                         ),
                         recommendation=recommendation,
-                        confidence=0.85,
+                        signal_strength=0.85,
                         cwe_id=cwe,
                     ))
                     seen_categories.add(category)
@@ -1131,7 +1163,7 @@ class SecurityAnalyzer:
                             location=f"{file_path}:{line}",
                             description=f"Potential {category.replace('_', ' ')} vulnerability detected",
                             recommendation=config["recommendation"],
-                            confidence=0.7,
+                            signal_strength=0.7,
                             cwe_id=config.get("cwe"),
                         ))
                         break  # One issue per category per symbol

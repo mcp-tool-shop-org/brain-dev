@@ -154,12 +154,13 @@ class TestRefactorSuggestion:
             suggestion_type="reduce_complexity",
             location="processor.py:10",
             reason="Function has high cyclomatic complexity",
-            confidence=0.85,
+            signal_strength=0.85,
         )
 
         assert suggestion.suggestion_id == "ref_001"
         assert suggestion.suggestion_type == "reduce_complexity"
-        assert suggestion.confidence == 0.85
+        assert suggestion.signal_strength == 0.85
+        assert suggestion.confidence == 0.85  # deprecated alias
 
     def test_refactor_suggestion_to_dict(self):
         """Test converting refactor suggestion to dict."""
@@ -168,13 +169,14 @@ class TestRefactorSuggestion:
             suggestion_type="extract_common",
             location="validators.py:20",
             reason="Similar code in multiple places",
-            confidence=0.72,
+            signal_strength=0.72,
         )
 
         d = suggestion.to_dict()
         assert d["suggestion_id"] == "ref_002"
         assert d["type"] == "extract_common"
-        assert d["confidence"] == 0.72
+        assert d["signal_strength"] == 0.72
+        assert d["confidence"] == 0.72  # deprecated alias
 
 
 # =============================================================================
@@ -190,14 +192,15 @@ class TestUXInsight:
             insight_id="ux_001",
             finding="35% of users abandon at payment step",
             supporting_patterns=5,
-            confidence=0.78,
+            signal_strength=0.78,
             suggestion="Simplify payment form",
             metric="dropoff",
         )
 
         assert insight.insight_id == "ux_001"
         assert insight.metric == "dropoff"
-        assert insight.confidence == 0.78
+        assert insight.signal_strength == 0.78
+        assert insight.confidence == 0.78  # deprecated alias
 
     def test_ux_insight_to_dict(self):
         """Test converting UX insight to dict."""
@@ -205,7 +208,7 @@ class TestUXInsight:
             insight_id="ux_002",
             finding="12% error rate on form submission",
             supporting_patterns=3,
-            confidence=0.65,
+            signal_strength=0.65,
             suggestion="Add validation",
             metric="error_rate",
         )
@@ -213,7 +216,8 @@ class TestUXInsight:
         d = insight.to_dict()
         assert d["insight_id"] == "ux_002"
         assert d["metric"] == "error_rate"
-        assert d["confidence"] == 0.65
+        assert d["signal_strength"] == 0.65
+        assert d["confidence"] == 0.65  # deprecated alias
 
 
 # =============================================================================

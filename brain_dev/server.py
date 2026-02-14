@@ -504,7 +504,8 @@ def create_server(config: Optional[DevBrainConfig] = None) -> Server:
                 "server_name": config.server_name,
                 "server_version": config.server_version,
                 "min_gap_support": config.min_gap_support,
-                "min_confidence": config.min_confidence,
+                "min_signal_strength": config.min_signal_strength,
+                "min_confidence": config.min_confidence,  # deprecated alias
                 "max_suggestions": config.max_suggestions,
                 "default_test_framework": config.default_test_framework,
                 "tools_available": len(TOOL_DEFINITIONS),

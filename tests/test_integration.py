@@ -161,7 +161,7 @@ def brain_dev_server():
     """Create Dev Brain server for testing."""
     return create_server(DevBrainConfig(
         min_gap_support=0.05,
-        min_confidence=0.5,
+        min_signal_strength=0.5,
         max_suggestions=20,
     ))
 
@@ -316,7 +316,8 @@ class TestRefactoringWorkflow:
             assert "suggestion_id" in suggestion
             assert "type" in suggestion
             assert "location" in suggestion
-            assert "confidence" in suggestion
+            assert "signal_strength" in suggestion
+            assert "confidence" in suggestion  # deprecated alias still emitted
 
 
 # =============================================================================
@@ -352,7 +353,8 @@ class TestUXInsightsWorkflow:
             assert "insight_id" in insight
             assert "finding" in insight
             assert "suggestion" in insight
-            assert "confidence" in insight
+            assert "signal_strength" in insight
+            assert "confidence" in insight  # deprecated alias still emitted
 
     @pytest.mark.asyncio
     async def test_analyze_error_flows(
@@ -483,6 +485,7 @@ class TestServerHealthCheck:
         assert result["server_name"] == "brain-dev"
         assert result["tools_available"] == 9
         assert "min_gap_support" in result
-        assert "min_confidence" in result
+        assert "min_signal_strength" in result
+        assert "min_confidence" in result  # deprecated alias still emitted
         assert "max_suggestions" in result
         assert "default_test_framework" in result
