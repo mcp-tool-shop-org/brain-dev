@@ -188,6 +188,25 @@ Recommendations:
 
 ---
 
+## 📦 Versioning & Compatibility
+
+Dev Brain follows [Semantic Versioning](https://semver.org/):
+
+| Change type | Version bump | Example |
+|-------------|-------------|---------|
+| New tool, new optional field | **minor** (1.**1**.0) | Add `dependency_audit` tool |
+| Bug fix, perf improvement | **patch** (1.0.**1**) | Fix false positive in security scan |
+| Remove/rename tool, change JSON schema | **major** (**2**.0.0) | Remove deprecated `confidence` field |
+
+**Stability guarantee:** Within a major version, existing tool names, required
+input fields, and output JSON keys will not be removed or renamed.
+
+**Python support:** We test against the four most recent CPython releases
+(currently 3.11 – 3.14).  When a new CPython version ships, the oldest is
+dropped in the next minor release.
+
+---
+
 ## 🔧 Development
 
 ```bash
