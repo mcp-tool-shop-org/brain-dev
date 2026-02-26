@@ -236,7 +236,7 @@ def hello(name: str) -> str:
 
             data = json.loads(result[0].text)
             assert data["success"] is True
-            assert data["file_path"] == temp_path
+            assert data["file_name"] == os.path.basename(temp_path)
             assert "test_code" in data
             assert "def test_hello" in data["test_code"]
             assert data["lines"] > 0
@@ -291,6 +291,6 @@ def hello(name: str) -> str:
             data = json.loads(result[0].text)
             assert data["success"] is False
             assert "error" in data
-            assert data["file_path"] == temp_path
+            assert data["file_name"] == os.path.basename(temp_path)
         finally:
             os.unlink(temp_path)
