@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.md">English</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -14,23 +14,23 @@
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python 3.11+" /></a>
 </p>
 
-**Intelligence layer for developer insights** — coverage analysis, test generation, refactoring suggestions, security audits, and UX insights via MCP.
+**開発者向けインサイトを提供するインテリジェンスレイヤー** — MCPを介した、カバレッジ分析、テスト生成、リファクタリングの提案、セキュリティ監査、およびUXに関する情報提供。
 
-## Features
+## 機能
 
-- **9 Analysis Tools** — Coverage gaps, behavior analysis, test generation, refactoring, UX insights, security audits, and more
-- **AST-Based Test Generation** — Automatically generate pytest tests with mocks that actually compile
-- **Security Vulnerability Detection** — OWASP-style scanning for SQL injection, command injection, hardcoded secrets
-- **Documentation Analysis** — Find missing docstrings and suggest templates
-- **MCP Native** — Integrates seamlessly with Claude and other MCP clients
+- **9つの分析ツール** — カバレッジの不足箇所、動作分析、テスト生成、リファクタリング、UXに関する情報、セキュリティ監査など
+- **ASTベースのテスト生成** — 実際にコンパイル可能なpytestテストを自動生成（モックを含む）
+- **セキュリティ脆弱性検出** — SQLインジェクション、コマンドインジェクション、ハードコードされた秘密情報などを検出するOWASP形式のスキャン
+- **ドキュメント分析** — ドキュメント文字列（docstring）の不足箇所を検出し、テンプレートを提案
+- **MCPネイティブ** — Claudeやその他のMCPクライアントとのシームレスな統合
 
-## Installation
+## インストール
 
 ```bash
 pip install dev-brain
 ```
 
-Or for development:
+または、開発用として：
 
 ```bash
 git clone https://github.com/mcp-tool-shop-org/brain-dev.git
@@ -38,14 +38,14 @@ cd brain-dev
 pip install -e ".[dev]"
 ```
 
-## Quick Start
+## クイックスタート
 
 ```bash
 # Run the MCP server
 dev-brain
 ```
 
-Add to your Claude Desktop config (`claude_desktop_config.json`):
+Claude Desktopの設定ファイル（`claude_desktop_config.json`）に追加します。
 
 ```json
 {
@@ -57,40 +57,40 @@ Add to your Claude Desktop config (`claude_desktop_config.json`):
 }
 ```
 
-## Tools
+## ツール
 
-### Analysis Tools
+### 分析ツール
 
-| Tool | Description |
-|------|-------------|
-| `coverage_analyze` | Compare observed patterns to test coverage, find gaps |
-| `behavior_missing` | Find user behaviors not handled in code |
-| `refactor_suggest` | Suggest refactoring based on complexity, duplication, naming |
-| `ux_insights` | Extract UX insights from behavior patterns (dropoff, errors) |
+| ツール | 説明 |
+| ------ | ------------- |
+| `coverage_analyze` | テストカバレッジと比較して、不足箇所を特定します。 |
+| `behavior_missing` | コードで処理されていないユーザーの行動を検出します。 |
+| `refactor_suggest` | 複雑さ、重複、命名規則に基づいて、リファクタリングを提案します。 |
+| `ux_insights` | ユーザーの行動パターン（離脱、エラーなど）からUXに関する情報を抽出します。 |
 
-### Generation Tools
+### 生成ツール
 
-| Tool | Description |
-|------|-------------|
-| `tests_generate` | Generate test suggestions for coverage gaps |
-| `smart_tests_generate` | AST-based pytest generation with proper mocks and fixtures |
-| `docs_generate` | Generate documentation templates for undocumented code |
+| ツール | 説明 |
+| ------ | ------------- |
+| `tests_generate` | カバレッジの不足箇所に対するテストの提案を生成します。 |
+| `smart_tests_generate` | 適切なモックとフィクスチャを使用した、ASTベースのpytestの生成 |
+| `docs_generate` | ドキュメント化されていないコードに対するドキュメントテンプレートを生成します。 |
 
-### Security Tools
+### セキュリティツール
 
-| Tool | Description |
-|------|-------------|
-| `security_audit` | Scan for vulnerabilities (SQL injection, command injection, secrets, etc.) |
+| ツール | 説明 |
+| ------ | ------------- |
+| `security_audit` | 脆弱性（SQLインジェクション、コマンドインジェクション、秘密情報など）をスキャンします。 |
 
-### Utility Tools
+### ユーティリティツール
 
-| Tool | Description |
-|------|-------------|
-| `brain_stats` | Get server statistics and configuration |
+| ツール | 説明 |
+| ------ | ------------- |
+| `brain_stats` | サーバーの統計情報と設定を取得します。 |
 
-## Example Usage
+## 使用例
 
-### Security Audit
+### セキュリティ監査
 
 ```python
 # Via MCP client
@@ -108,7 +108,7 @@ result = await client.call_tool("security_audit", {
 # Returns: SQL injection vulnerability detected (CWE-89)
 ```
 
-### Smart Test Generation
+### スマートテスト生成
 
 ```python
 result = await client.call_tool("smart_tests_generate", {
@@ -117,7 +117,7 @@ result = await client.call_tool("smart_tests_generate", {
 # Returns complete pytest file with fixtures and mocks
 ```
 
-## Architecture
+## アーキテクチャ
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -137,18 +137,18 @@ result = await client.call_tool("smart_tests_generate", {
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Security Patterns Detected
+## 検出されたセキュリティパターン
 
-| Category | Severity | CWE |
-|----------|----------|-----|
-| SQL Injection | Critical | CWE-89 |
-| Command Injection | Critical | CWE-78 |
-| Insecure Deserialization | Critical | CWE-502 |
-| Hardcoded Secrets | High | CWE-798 |
-| Path Traversal | High | CWE-22 |
-| Insecure Crypto | Medium | CWE-327 |
+| カテゴリ | 深刻度 | CWE |
+| ---------- | ---------- | ----- |
+| SQLインジェクション | 重大 | CWE-89 |
+| コマンドインジェクション | 重大 | CWE-78 |
+| 不安全なデシリアライゼーション | 重大 | CWE-502 |
+| ハードコードされた秘密情報 | 高 | CWE-798 |
+| パスのトラバーサル | 高 | CWE-22 |
+| 不安全な暗号化 | 中 | CWE-327 |
 
-## Development
+## 開発
 
 ```bash
 # Install dev dependencies
@@ -164,10 +164,10 @@ pytest tests/ --cov=dev_brain --cov-report=html
 mypy dev_brain
 ```
 
-## License
+## ライセンス
 
-MIT License — see [LICENSE](LICENSE) for details.
+MITライセンス — 詳細については、[LICENSE](LICENSE) を参照してください。
 
 ---
 
-Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
+<a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a> が作成しました。

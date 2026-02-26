@@ -2,14 +2,14 @@ name: Tests
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
     paths:
       - 'pyproject.toml'
       - 'dev_brain/**'
       - 'tests/**'
       - '.github/workflows/**'
   pull_request:
-    branches: [main, master]
+    branches: [main]
     paths:
       - 'pyproject.toml'
       - 'dev_brain/**'

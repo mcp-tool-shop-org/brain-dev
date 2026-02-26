@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 license = "MIT"
 authors = [
-    { name = "AI Workstation" }
+    { name = "mcp-tool-shop" }
 ]
 keywords = ["mcp", "developer", "testing", "coverage", "ai", "agents"]
 classifiers = [
@@ -35,9 +35,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mikeyfrilot/dev-brain"
-Repository = "https://github.com/mikeyfrilot/dev-brain"
-Issues = "https://github.com/mikeyfrilot/dev-brain/issues"
+Homepage = "https://mcp-tool-shop-org.github.io/brain-dev/"
+Repository = "https://github.com/mcp-tool-shop-org/brain-dev"
+Issues = "https://github.com/mcp-tool-shop-org/brain-dev/issues"
 
 [project.scripts]
 dev-brain = "dev_brain.server:main"

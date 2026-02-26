@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.md">English</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -14,23 +14,23 @@
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python 3.11+" /></a>
 </p>
 
-**Intelligence layer for developer insights** — coverage analysis, test generation, refactoring suggestions, security audits, and UX insights via MCP.
+**用于开发者洞察的智能层**——通过 MCP 提供代码覆盖率分析、测试生成、重构建议、安全审计以及用户体验洞察。
 
-## Features
+## 功能
 
-- **9 Analysis Tools** — Coverage gaps, behavior analysis, test generation, refactoring, UX insights, security audits, and more
-- **AST-Based Test Generation** — Automatically generate pytest tests with mocks that actually compile
-- **Security Vulnerability Detection** — OWASP-style scanning for SQL injection, command injection, hardcoded secrets
-- **Documentation Analysis** — Find missing docstrings and suggest templates
-- **MCP Native** — Integrates seamlessly with Claude and other MCP clients
+- **9 个分析工具**——代码覆盖率缺口、行为分析、测试生成、重构、用户体验洞察、安全审计等。
+- **基于 AST 的测试生成**——自动生成带有实际可编译的模拟对象的 pytest 测试。
+- **安全漏洞检测**——采用 OWASP 风格的扫描，检测 SQL 注入、命令注入以及硬编码的敏感信息。
+- **文档分析**——查找缺失的文档字符串，并提供模板建议。
+- **原生支持 MCP**——与 Claude 以及其他 MCP 客户端无缝集成。
 
-## Installation
+## 安装
 
 ```bash
 pip install dev-brain
 ```
 
-Or for development:
+或用于开发：
 
 ```bash
 git clone https://github.com/mcp-tool-shop-org/brain-dev.git
@@ -38,14 +38,14 @@ cd brain-dev
 pip install -e ".[dev]"
 ```
 
-## Quick Start
+## 快速开始
 
 ```bash
 # Run the MCP server
 dev-brain
 ```
 
-Add to your Claude Desktop config (`claude_desktop_config.json`):
+添加到 Claude 桌面配置 (`claude_desktop_config.json`)：
 
 ```json
 {
@@ -57,40 +57,40 @@ Add to your Claude Desktop config (`claude_desktop_config.json`):
 }
 ```
 
-## Tools
+## 工具
 
-### Analysis Tools
+### 分析工具
 
-| Tool | Description |
-|------|-------------|
-| `coverage_analyze` | Compare observed patterns to test coverage, find gaps |
-| `behavior_missing` | Find user behaviors not handled in code |
-| `refactor_suggest` | Suggest refactoring based on complexity, duplication, naming |
-| `ux_insights` | Extract UX insights from behavior patterns (dropoff, errors) |
+| 工具 | 描述 |
+| ------ | ------------- |
+| `coverage_analyze` | 将观察到的模式与测试覆盖率进行比较，查找缺口。 |
+| `behavior_missing` | 查找代码中未处理的用户行为。 |
+| `refactor_suggest` | 根据复杂性、重复性和命名建议进行重构。 |
+| `ux_insights` | 从用户行为模式（例如，流失率、错误）中提取用户体验洞察。 |
 
-### Generation Tools
+### 生成工具
 
-| Tool | Description |
-|------|-------------|
-| `tests_generate` | Generate test suggestions for coverage gaps |
-| `smart_tests_generate` | AST-based pytest generation with proper mocks and fixtures |
-| `docs_generate` | Generate documentation templates for undocumented code |
+| 工具 | 描述 |
+| ------ | ------------- |
+| `tests_generate` | 为代码覆盖率缺口生成测试建议。 |
+| `smart_tests_generate` | 基于 AST 的 pytest 生成，包含正确的模拟对象和测试用例。 |
+| `docs_generate` | 为未 documented 的代码生成文档模板。 |
 
-### Security Tools
+### 安全工具
 
-| Tool | Description |
-|------|-------------|
-| `security_audit` | Scan for vulnerabilities (SQL injection, command injection, secrets, etc.) |
+| 工具 | 描述 |
+| ------ | ------------- |
+| `security_audit` | 扫描潜在的安全漏洞（例如，SQL 注入、命令注入、敏感信息等）。 |
 
-### Utility Tools
+### 实用工具
 
-| Tool | Description |
-|------|-------------|
-| `brain_stats` | Get server statistics and configuration |
+| 工具 | 描述 |
+| ------ | ------------- |
+| `brain_stats` | 获取服务器统计信息和配置。 |
 
-## Example Usage
+## 示例用法
 
-### Security Audit
+### 安全审计
 
 ```python
 # Via MCP client
@@ -108,7 +108,7 @@ result = await client.call_tool("security_audit", {
 # Returns: SQL injection vulnerability detected (CWE-89)
 ```
 
-### Smart Test Generation
+### 智能测试生成
 
 ```python
 result = await client.call_tool("smart_tests_generate", {
@@ -117,7 +117,7 @@ result = await client.call_tool("smart_tests_generate", {
 # Returns complete pytest file with fixtures and mocks
 ```
 
-## Architecture
+## 架构
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -137,18 +137,18 @@ result = await client.call_tool("smart_tests_generate", {
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Security Patterns Detected
+## 检测到的安全模式
 
-| Category | Severity | CWE |
-|----------|----------|-----|
-| SQL Injection | Critical | CWE-89 |
-| Command Injection | Critical | CWE-78 |
-| Insecure Deserialization | Critical | CWE-502 |
-| Hardcoded Secrets | High | CWE-798 |
-| Path Traversal | High | CWE-22 |
-| Insecure Crypto | Medium | CWE-327 |
+| 类别 | 严重程度 | CWE |
+| ---------- | ---------- | ----- |
+| SQL 注入 | 严重 | CWE-89 |
+| 命令注入 | 严重 | CWE-78 |
+| 不安全的序列化 | 严重 | CWE-502 |
+| 硬编码的敏感信息 | 高 | CWE-798 |
+| 路径遍历 | 高 | CWE-22 |
+| 不安全的加密 | 中等 | CWE-327 |
 
-## Development
+## 开发
 
 ```bash
 # Install dev dependencies
@@ -164,10 +164,10 @@ pytest tests/ --cov=dev_brain --cov-report=html
 mypy dev_brain
 ```
 
-## License
+## 许可证
 
-MIT License — see [LICENSE](LICENSE) for details.
+MIT 许可证——详情请参见 [LICENSE](LICENSE)。
 
 ---
 
-Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
+由 <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a> 构建。

@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.es.md">Español</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
+  <a href="README.ja.md">日本語</a> | <a href="README.zh.md">中文</a> | <a href="README.md">English</a> | <a href="README.fr.md">Français</a> | <a href="README.hi.md">हिन्दी</a> | <a href="README.it.md">Italiano</a> | <a href="README.pt-BR.md">Português (BR)</a>
 </p>
 
 <p align="center">
@@ -14,23 +14,23 @@
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/badge/python-3.11+-blue.svg" alt="Python 3.11+" /></a>
 </p>
 
-**Intelligence layer for developer insights** — coverage analysis, test generation, refactoring suggestions, security audits, and UX insights via MCP.
+**Capa de inteligencia para obtener información valiosa para desarrolladores** — análisis de cobertura, generación de pruebas, sugerencias de refactorización, auditorías de seguridad y análisis de la experiencia de usuario a través de MCP.
 
-## Features
+## Características
 
-- **9 Analysis Tools** — Coverage gaps, behavior analysis, test generation, refactoring, UX insights, security audits, and more
-- **AST-Based Test Generation** — Automatically generate pytest tests with mocks that actually compile
-- **Security Vulnerability Detection** — OWASP-style scanning for SQL injection, command injection, hardcoded secrets
-- **Documentation Analysis** — Find missing docstrings and suggest templates
-- **MCP Native** — Integrates seamlessly with Claude and other MCP clients
+- **9 Herramientas de análisis** — Identificación de lagunas en la cobertura, análisis de comportamiento, generación de pruebas, refactorización, análisis de la experiencia de usuario, auditorías de seguridad y más.
+- **Generación de pruebas basada en AST** — Genera automáticamente pruebas pytest con mocks que realmente se compilan.
+- **Detección de vulnerabilidades de seguridad** — Análisis al estilo OWASP para inyección SQL, inyección de comandos y secretos codificados.
+- **Análisis de documentación** — Encuentra docstrings faltantes y sugiere plantillas.
+- **Nativo de MCP** — Se integra perfectamente con Claude y otros clientes de MCP.
 
-## Installation
+## Instalación
 
 ```bash
 pip install dev-brain
 ```
 
-Or for development:
+O para desarrollo:
 
 ```bash
 git clone https://github.com/mcp-tool-shop-org/brain-dev.git
@@ -38,14 +38,14 @@ cd brain-dev
 pip install -e ".[dev]"
 ```
 
-## Quick Start
+## Comienzo rápido
 
 ```bash
 # Run the MCP server
 dev-brain
 ```
 
-Add to your Claude Desktop config (`claude_desktop_config.json`):
+Agrega lo siguiente a tu configuración de Claude Desktop (`claude_desktop_config.json`):
 
 ```json
 {
@@ -57,40 +57,40 @@ Add to your Claude Desktop config (`claude_desktop_config.json`):
 }
 ```
 
-## Tools
+## Herramientas
 
-### Analysis Tools
+### Herramientas de análisis
 
-| Tool | Description |
-|------|-------------|
-| `coverage_analyze` | Compare observed patterns to test coverage, find gaps |
-| `behavior_missing` | Find user behaviors not handled in code |
-| `refactor_suggest` | Suggest refactoring based on complexity, duplication, naming |
-| `ux_insights` | Extract UX insights from behavior patterns (dropoff, errors) |
+| Herramienta | Descripción |
+| ------ | ------------- |
+| `coverage_analyze` | Compara los patrones observados con la cobertura de pruebas, encuentra lagunas. |
+| `behavior_missing` | Identifica comportamientos de usuario que no se gestionan en el código. |
+| `refactor_suggest` | Sugiere refactorizaciones basadas en la complejidad, la duplicación y la nomenclatura. |
+| `ux_insights` | Extrae información sobre la experiencia de usuario a partir de los patrones de comportamiento (abandono, errores). |
 
-### Generation Tools
+### Herramientas de generación
 
-| Tool | Description |
-|------|-------------|
-| `tests_generate` | Generate test suggestions for coverage gaps |
-| `smart_tests_generate` | AST-based pytest generation with proper mocks and fixtures |
-| `docs_generate` | Generate documentation templates for undocumented code |
+| Herramienta | Descripción |
+| ------ | ------------- |
+| `tests_generate` | Genera sugerencias de pruebas para lagunas en la cobertura. |
+| `smart_tests_generate` | Generación de pruebas pytest basada en AST con mocks y fixtures adecuados. |
+| `docs_generate` | Genera plantillas de documentación para código sin documentación. |
 
-### Security Tools
+### Herramientas de seguridad
 
-| Tool | Description |
-|------|-------------|
-| `security_audit` | Scan for vulnerabilities (SQL injection, command injection, secrets, etc.) |
+| Herramienta | Descripción |
+| ------ | ------------- |
+| `security_audit` | Analiza en busca de vulnerabilidades (inyección SQL, inyección de comandos, secretos, etc.). |
 
-### Utility Tools
+### Herramientas de utilidad
 
-| Tool | Description |
-|------|-------------|
-| `brain_stats` | Get server statistics and configuration |
+| Herramienta | Descripción |
+| ------ | ------------- |
+| `brain_stats` | Obtén estadísticas y configuración del servidor. |
 
-## Example Usage
+## Ejemplo de uso
 
-### Security Audit
+### Auditoría de seguridad
 
 ```python
 # Via MCP client
@@ -108,7 +108,7 @@ result = await client.call_tool("security_audit", {
 # Returns: SQL injection vulnerability detected (CWE-89)
 ```
 
-### Smart Test Generation
+### Generación inteligente de pruebas
 
 ```python
 result = await client.call_tool("smart_tests_generate", {
@@ -117,7 +117,7 @@ result = await client.call_tool("smart_tests_generate", {
 # Returns complete pytest file with fixtures and mocks
 ```
 
-## Architecture
+## Arquitectura
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -137,18 +137,18 @@ result = await client.call_tool("smart_tests_generate", {
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Security Patterns Detected
+## Patrones de seguridad detectados
 
-| Category | Severity | CWE |
-|----------|----------|-----|
-| SQL Injection | Critical | CWE-89 |
-| Command Injection | Critical | CWE-78 |
-| Insecure Deserialization | Critical | CWE-502 |
-| Hardcoded Secrets | High | CWE-798 |
-| Path Traversal | High | CWE-22 |
-| Insecure Crypto | Medium | CWE-327 |
+| Categoría | Severidad | CWE |
+| ---------- | ---------- | ----- |
+| Inyección SQL | Crítica | CWE-89 |
+| Inyección de comandos | Crítica | CWE-78 |
+| Deserialización insegura | Crítica | CWE-502 |
+| Secretos codificados | Alta | CWE-798 |
+| Recorrido de ruta | Alta | CWE-22 |
+| Criptografía insegura | Media | CWE-327 |
 
-## Development
+## Desarrollo
 
 ```bash
 # Install dev dependencies
@@ -164,10 +164,10 @@ pytest tests/ --cov=dev_brain --cov-report=html
 mypy dev_brain
 ```
 
-## License
+## Licencia
 
-MIT License — see [LICENSE](LICENSE) for details.
+Licencia MIT — consulta [LICENSE](LICENSE) para obtener más detalles.
 
 ---
 
-Built by <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
+Creado por <a href="https://mcp-tool-shop.github.io/">MCP Tool Shop</a>
