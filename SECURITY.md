@@ -41,7 +41,7 @@ The `smart_tests_generate` tool accepts file paths and reads Python files for an
 If you discover a security vulnerability, please report it by:
 
 1. **DO NOT** open a public GitHub issue
-2. Email the maintainer directly or use GitHub's private vulnerability reporting
+2. Email: **64996768+mcp-tool-shop@users.noreply.github.com**
 3. Include:
    - Description of the vulnerability
    - Steps to reproduce

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dev-brain"
-version = "1.0.0"
+version = "1.0.1"
 description = "Intelligent developer insights MCP server - analyzes coverage, suggests tests, and provides UX insights"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -32,6 +32,9 @@ dev = [
     "pytest>=7.0.0",
     "pytest-asyncio>=0.21.0",
     "pytest-cov>=4.0.0",
+    "ruff>=0.3",
+    "mypy>=1.0.0",
+    "pip-audit>=2.7.0",
 ]
 
 [project.urls]
