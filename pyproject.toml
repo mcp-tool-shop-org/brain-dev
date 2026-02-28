@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "dev-brain"
+name = "brain-dev"
 version = "1.0.1"
 description = "Intelligent developer insights MCP server - analyzes coverage, suggests tests, and provides UX insights"
 readme = "README.md"
