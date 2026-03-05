@@ -14,7 +14,7 @@ export const config: SiteConfig = {
     headlineAccent: 'on demand.',
     description: 'Coverage analysis, test generation, security audits, and refactoring suggestions — all accessible as MCP tools from your AI coding assistant.',
     primaryCta: { href: '#usage', label: 'Get started' },
-    secondaryCta: { href: '#features', label: 'See the tools' },
+    secondaryCta: { href: 'handbook/', label: 'Read the Handbook' },
     previews: [
       { label: 'Install', code: 'pip install dev-brain' },
       { label: 'Run', code: 'dev-brain' },
