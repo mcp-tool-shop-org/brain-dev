@@ -412,7 +412,6 @@ def create_server(config: Optional[DevBrainConfig] = None) -> Server:
         style = args.get("style", config.test_style)
 
         # Convert gap data to CoverageGap
-        from .analyzer import CoverageGap
         import hashlib
 
         pattern = gap_data.get("pattern", [])
@@ -672,6 +671,27 @@ async def run_server():
 
 def main():
     """Main entry point."""
+    import sys
+
+    if "--version" in sys.argv or "-V" in sys.argv:
+        from . import __version__
+        print(f"dev-brain {__version__}")
+        return
+
+    if "--help" in sys.argv or "-h" in sys.argv:
+        from . import __version__
+        print(f"dev-brain {__version__} — Intelligent developer insights MCP server")
+        print()
+        print("Usage:")
+        print("  dev-brain              Start the MCP server (stdio transport)")
+        print("  dev-brain --version    Show version")
+        print("  dev-brain --help       Show this help")
+        print()
+        print("Tools: smart_coverage_analyze, smart_tests_generate, smart_refactor_suggest,")
+        print("       smart_security_audit, smart_doc_analyze, smart_ux_analyze,")
+        print("       smart_complexity_analyze, smart_quality_score, coverage_explain")
+        return
+
     asyncio.run(run_server())
 
 

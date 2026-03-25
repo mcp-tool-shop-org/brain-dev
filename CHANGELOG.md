@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] — 2026-03-25
+
+### Added
+- `--version` / `-V` and `--help` / `-h` CLI flags
+- Classifier upgraded from Beta to Production/Stable
+
+### Fixed
+- 8 ruff lint errors (unused imports, extraneous f-prefixes)
+- Version sync between `__init__.py` and `pyproject.toml`
+
 ## [1.0.1] — 2026-02-27
 
 ### Added

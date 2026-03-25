@@ -18,7 +18,7 @@ import ast
 import re
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Optional
 
 
 @dataclass
@@ -565,9 +565,9 @@ def {fixture_name}():
     def _generate_function_tests(self, func: FunctionInfo) -> str:
         """Generate tests for a standalone function."""
         lines = [
-            f"\n# " + "=" * 70,
+            "\n# " + "=" * 70,
             f"# Tests for {func.name}",
-            f"# " + "=" * 70,
+            "# " + "=" * 70,
         ]
 
         # Generate basic test
@@ -590,9 +590,9 @@ def {fixture_name}():
     def _generate_class_tests(self, cls: ClassInfo) -> str:
         """Generate tests for a class."""
         lines = [
-            f"\n# " + "=" * 70,
+            "\n# " + "=" * 70,
             f"# Tests for {cls.name}",
-            f"# " + "=" * 70,
+            "# " + "=" * 70,
         ]
 
         # Test class with fixtures
