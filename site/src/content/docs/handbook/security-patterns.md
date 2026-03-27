@@ -26,7 +26,7 @@ Detects string interpolation and concatenation in SQL queries. Flags f-strings, 
 
 ### Command Injection (CWE-78)
 
-Identifies calls to `os.system()`, `subprocess.call()` with `shell=True`, and similar patterns where user input flows into shell commands.
+Identifies calls to `os.system()`, `subprocess.call()` with string concatenation, `subprocess.run()` with `shell=True`, `eval()`, and `exec()`. These patterns allow user input to flow into shell commands or arbitrary code execution.
 
 **Remediation:** Use `subprocess.run()` with a list of arguments instead of shell strings. Validate and sanitize all inputs.
 
@@ -92,8 +92,8 @@ The security auditor processes code symbols provided by the MCP client. Each sym
 
 The `severity_threshold` parameter controls which findings are returned:
 
-- **`low`** -- returns all findings
-- **`medium`** (default) -- returns medium, high, and critical findings
+- **`low`** (default) -- returns all findings
+- **`medium`** -- returns medium, high, and critical findings
 - **`high`** -- returns only high and critical findings
 - **`critical`** -- returns only critical findings
 

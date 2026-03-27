@@ -18,7 +18,7 @@
 
 ## Features
 
-- **9 Analysis Tools** — Coverage gaps, behavior analysis, test generation, refactoring, UX insights, security audits, and more
+- **9 MCP Tools** — Coverage gaps, behavior analysis, test generation, refactoring, UX insights, security audits, documentation analysis, and server stats
 - **AST-Based Test Generation** — Automatically generate pytest tests with mocks that actually compile
 - **Security Vulnerability Detection** — OWASP-style scanning for SQL injection, command injection, hardcoded secrets
 - **Documentation Analysis** — Find missing docstrings and suggest templates
